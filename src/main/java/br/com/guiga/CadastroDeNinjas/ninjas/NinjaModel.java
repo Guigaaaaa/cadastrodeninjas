@@ -1,5 +1,6 @@
-package br.com.guiga.CadastroDeNinjas.NinjaModel;
+package br.com.guiga.CadastroDeNinjas.ninjas;
 
+import br.com.guiga.CadastroDeNinjas.missoes.MissoesModel;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +13,9 @@ public class NinjaModel {
     private String nome;
     private String email;
     private int idade;
+    @ManyToOne // PODE TER UMA MISSÃO POR NINJA
+    @JoinColumn(name = "missoes_id")
+    private MissoesModel missoes;
 
     public NinjaModel() {}
 
