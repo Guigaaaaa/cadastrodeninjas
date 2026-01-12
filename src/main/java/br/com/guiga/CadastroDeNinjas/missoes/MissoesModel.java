@@ -2,10 +2,16 @@ package br.com.guiga.CadastroDeNinjas.missoes;
 
 import br.com.guiga.CadastroDeNinjas.ninjas.NinjaModel;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "tb_missoes")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MissoesModel {
 
     @Id
@@ -15,12 +21,5 @@ public class MissoesModel {
     private String dificuldade;
     @OneToMany(mappedBy = "missoes") // PODE TER VARIOS NINJAS EM UMA MISSÃO
     private NinjaModel ninjas;
-
-    public MissoesModel() {}
-
-    public MissoesModel(String nome, String dificuldade) {
-        this.nome = nome;
-        this.dificuldade = dificuldade;
-    }
 
 }
