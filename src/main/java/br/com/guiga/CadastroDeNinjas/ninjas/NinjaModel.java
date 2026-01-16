@@ -24,7 +24,10 @@ public class NinjaModel {
 
     private int idade;
 
-    @ManyToOne // PODE TER UMA MISSÃO POR NINJA
+    @ManyToOne
     @JoinColumn(name = "missoes_id")
     private MissoesModel missoes;
+
+    @Column(name = "rank")
+    private String rank;
 }
