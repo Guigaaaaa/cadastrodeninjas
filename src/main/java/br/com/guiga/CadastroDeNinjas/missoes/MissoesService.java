@@ -20,6 +20,11 @@ public class MissoesService {
         return missoesRepository.findAll().stream().map(missoesMapper::map).toList();
     }
 
+    public MissoesDTO listarMissoesPorId(Long id) {
+        Optional<MissoesModel> missao = missoesRepository.findById(id);
+        return missao.map(missoesMapper::map).orElse(null);
+    }
+
     public MissoesDTO criarMissao(MissoesDTO missaoDTO) {
         MissoesModel missoesModel = missoesMapper.map(missaoDTO);
         missoesModel = missoesRepository.save(missoesModel);
