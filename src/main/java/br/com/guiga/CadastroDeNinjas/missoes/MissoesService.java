@@ -3,32 +3,40 @@ package br.com.guiga.CadastroDeNinjas.missoes;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MissoesService {
 
     private MissoesRepository missoesRepository;
+    private MissoesMapper missoesMapper;
 
-    public MissoesService(MissoesRepository missoesRepository) {
+    public MissoesService(MissoesRepository missoesRepository, MissoesMapper missoesMapper) {
         this.missoesRepository = missoesRepository;
+        this.missoesMapper = missoesMapper;
     }
 
-    public List<MissoesModel> listarMissoes() {
-        return missoesRepository.findAll();
+    public List<MissoesDTO> listarMissoes() {
+        return missoesRepository.findAll().stream().map(missoesMapper::map).toList();
     }
 
-    public MissoesModel criarMissao(MissoesModel missao) {
-        return missoesRepository.save(missao);
+    public MissoesDTO criarMissao(MissoesDTO missaoDTO) {
+        MissoesModel missoesModel = missoesMapper.map(missaoDTO);
+        missoesModel = missoesRepository.save(missoesModel);
+        return missoesMapper.map(missoesModel);
     }
 
     public void deletarMissaoPorId(Long id) {
         missoesRepository.deleteById(id);
     }
 
-    public MissoesModel atualizarMissao(Long id, MissoesModel missaoAtualizada) {
-        if (missoesRepository.existsById(id)) {
+    public MissoesDTO atualizarMissao(Long id, MissoesDTO missoesDTO) {
+        Optional<MissoesModel> missoesAtual = missoesRepository.findById(id);
+        if (missoesAtual.isPresent()) {
+            MissoesModel missaoAtualizada = missoesMapper.map(missoesDTO);
             missaoAtualizada.setId(id);
-            return missoesRepository.save(missaoAtualizada);
+            MissoesModel missaoSalva = missoesRepository.save(missaoAtualizada);
+            return missoesMapper.map(missaoSalva);
         }
         return null;
     }
